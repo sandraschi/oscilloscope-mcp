@@ -1,0 +1,78 @@
+{
+  "manifest_version": "0.2",
+  "name": "oscilloscope-mcp",
+  "version": "0.1.0",
+  "description": "FastMCP 3.2+ MCP server for USB PC oscilloscopes: PicoScope, Hantek 6022, and simulator. Waveform capture, CSV export, Vpp/frequency measurements. Webapp :10937, HTTP :10936.",
+  "long_description": "Oscilloscope MCP connects AI agents to screenless USB oscilloscope frontends. Use the built-in simulator for dry-runs, or optional PicoScope (pyPicoSDK + PicoSDK) and Hantek (PyHT6022) backends for real hardware. Six portmanteau tools cover device discovery, channel/trigger setup, capture, measurements, and help. Pair with logic-analyzer-mcp for mixed-signal bench work.",
+  "author": {
+    "name": "Sandra Schipal",
+    "email": "sandra@schipal.at"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sandraschi/oscilloscope-mcp"
+  },
+  "homepage": "https://github.com/sandraschi/oscilloscope-mcp",
+  "documentation": "https://github.com/sandraschi/oscilloscope-mcp/blob/main/README.md",
+  "support": "https://github.com/sandraschi/oscilloscope-mcp/issues",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "oscilloscope",
+    "usb-scope",
+    "picoscope",
+    "hantek",
+    "test-equipment",
+    "waveform",
+    "fastmcp",
+    "fleet"
+  ],
+  "icon": "assets/icon.png",
+  "server": {
+    "type": "python",
+    "entry_point": "src/oscilloscope_mcp/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${__dirname}",
+        "python",
+        "-m",
+        "oscilloscope_mcp",
+        "--stdio"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "OSCILLOSCOPE_MCP_BACKEND": "auto"
+      }
+    }
+  },
+  "user_config": {
+    "OSCILLOSCOPE_MCP_BACKEND": {
+      "type": "string",
+      "title": "Backend preference",
+      "description": "auto, simulator, picoscope, or hantek",
+      "required": false,
+      "default": "auto"
+    },
+    "OSCILLOSCOPE_MCP_CAPTURE_DIR": {
+      "type": "directory",
+      "title": "Capture directory",
+      "description": "Folder for CSV/JSON waveform exports",
+      "required": false,
+      "default": ""
+    }
+  },
+  "tools": [
+    { "name": "scope_device", "description": "Discover and connect USB oscilloscopes" },
+    { "name": "scope_configure", "description": "Channel range, coupling, simulator waveform" },
+    { "name": "scope_trigger", "description": "Trigger source, threshold, mode" },
+    { "name": "scope_capture", "description": "Acquire waveforms and export CSV/JSON" },
+    { "name": "scope_measure", "description": "Vpp, frequency, duty, rise time" },
+    { "name": "scope_help", "description": "Discovery, quickstart, hardware guide" }
+  ],
+  "compatibility": {
+    "platforms": ["win32", "darwin", "linux"]
+  }
+}

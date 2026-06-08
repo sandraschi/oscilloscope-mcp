@@ -17,6 +17,20 @@ uv sync --extra dev
 5. Restart Cursor
 6. Verify: `scope_help(operation="status")`
 
+## Option A2 - Claude Desktop MCPB
+
+1. Build or download `oscilloscope-mcp-v0.1.0.mcpb` from [Releases](https://github.com/sandraschi/oscilloscope-mcp/releases)
+2. Or build locally:
+
+```powershell
+Set-Location D:\Dev\repos\oscilloscope-mcp
+npx --yes @anthropic-ai/mcpb@latest validate .
+npx --yes @anthropic-ai/mcpb@latest pack . dist/oscilloscope-mcp-v0.1.0.mcpb
+```
+
+3. Drag the `.mcpb` file into Claude Desktop
+4. Requires [uv](https://docs.astral.sh/uv/) on PATH for the bundled server
+
 ## Option B - HTTP mode (remote agents)
 
 ```powershell

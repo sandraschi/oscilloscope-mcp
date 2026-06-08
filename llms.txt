@@ -31,6 +31,7 @@ scope_measure(operation="all", channel_id="A")
 
 - README.md
 - INSTALL.md
+- docs/PRD.md
 - docs/TOOLS.md
 - docs/HARDWARE.md
 - docs/BACKENDS.md
@@ -41,6 +42,18 @@ scope_measure(operation="all", channel_id="A")
 uv sync --extra dev
 uv run python -m oscilloscope_mcp --stdio
 
+## MCPB (Claude Desktop)
+
+- `manifest.json` at repo root
+- Build: `just mcpb-pack` → `dist/oscilloscope-mcp-v0.1.0.mcpb`
+- Drag `.mcpb` to Claude Desktop or use stdio in Cursor `mcp.json`
+
+## Discovery
+
+- glama.json — Glama / fleet registry
+- GET http://127.0.0.1:10936/api/capabilities
+
 ## Ports
 
-HTTP: 10936
+HTTP backend: 10936
+Webapp frontend: 10937

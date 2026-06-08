@@ -75,9 +75,19 @@ Safety: 35-50 V max on budget scopes. Never probe mains.
 
 ## Fleet
 
-Port 10936 HTTP
-Pairs with kicad-mcp, chip-design-mcp, devices-mcp
+Ports: backend 10936, frontend 10937
+Pairs with logic-analyzer-mcp, kicad-mcp, chip-design-mcp
 Cursor mcp.json entry in docs/FLEET_INTEGRATION.md
+
+## MCPB
+
+- manifest.json (Claude Desktop bundle)
+- just mcpb-pack → dist/oscilloscope-mcp-v0.1.0.mcpb
+- glama.json for registry discovery
+
+## PRD
+
+docs/PRD.md — product requirements, success metrics, fleet pipelines
 
 ## Testing
 

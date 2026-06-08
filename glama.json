@@ -1,18 +1,95 @@
 {
+  "$schema": "https://glama.ai/schemas/mcp.json",
   "name": "oscilloscope-mcp",
-  "description": "FastMCP 3.2+ server for USB PC oscilloscopes with PicoScope, Hantek, and simulator backends.",
   "version": "0.1.0",
+  "description": "FastMCP 3.2+ USB oscilloscope MCP: PicoScope, Hantek 6022, simulator. Capture, measure, CSV export. Webapp 10936/10937.",
   "author": "Sandra Schipal",
   "license": "MIT",
-  "tags": ["mcp", "oscilloscope", "test-equipment", "picoscope", "usb-scope", "fastmcp"],
-  "fleet_tier": 2,
+  "language": "python",
+  "framework": "fastmcp",
+  "type": "mcp_server",
+  "status": "beta",
+  "transport": ["stdio", "http"],
+  "keywords": [
+    "oscilloscope",
+    "usb-scope",
+    "picoscope",
+    "hantek",
+    "test-equipment",
+    "mcp",
+    "fastmcp",
+    "fleet"
+  ],
+  "categories": ["Developer Tools", "Hardware", "AI Agents"],
+  "homepage": "https://github.com/sandraschi/oscilloscope-mcp",
+  "repository": {
+    "url": "https://github.com/sandraschi/oscilloscope-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "github",
+      "identifier": "sandraschi/oscilloscope-mcp",
+      "transport": {
+        "type": "stdio",
+        "command": "uv",
+        "args": ["run", "python", "-m", "oscilloscope_mcp", "--stdio"]
+      }
+    },
+    {
+      "registryType": "github",
+      "identifier": "sandraschi/oscilloscope-mcp",
+      "transport": {
+        "type": "http",
+        "url": "http://127.0.0.1:10936/mcp"
+      }
+    }
+  ],
+  "mcpServers": {
+    "oscilloscope-mcp": {
+      "name": "oscilloscope-mcp",
+      "command": "uv",
+      "args": ["run", "python", "-m", "oscilloscope_mcp", "--stdio"],
+      "env": {
+        "OSCILLOSCOPE_MCP_BACKEND": "auto"
+      },
+      "description": "Stdio MCP (Claude Desktop / Cursor).",
+      "capabilities": {
+        "tools": { "enabled": true, "listChanged": true },
+        "resources": { "enabled": true },
+        "prompts": { "enabled": true },
+        "webapp": {
+          "enabled": true,
+          "url": "http://127.0.0.1:10937",
+          "api_url": "http://127.0.0.1:10936"
+        }
+      }
+    },
+    "oscilloscope-mcp-http": {
+      "name": "oscilloscope-mcp-http",
+      "url": "http://127.0.0.1:10936/mcp",
+      "description": "Streamable HTTP MCP. Start: just serve-http or webapp/start.ps1",
+      "capabilities": {
+        "tools": { "enabled": true, "listChanged": true },
+        "resources": { "enabled": true },
+        "prompts": { "enabled": true },
+        "webapp": {
+          "enabled": true,
+          "url": "http://127.0.0.1:10937",
+          "api_url": "http://127.0.0.1:10936"
+        }
+      }
+    }
+  },
   "health": {
     "docs_complete": true,
     "tests_present": true,
     "ci_present": true,
-    "stdio_safe": true
+    "stdio_safe": true,
+    "mcpb_packaged": true
   },
   "ports": {
-    "backend_http": 10936
+    "backend_http": 10936,
+    "frontend_vite": 10937
   }
 }
