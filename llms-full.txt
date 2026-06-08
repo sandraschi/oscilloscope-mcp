@@ -1,0 +1,93 @@
+# oscilloscope-mcp - Full LLM Manifest
+
+## Project
+
+Name: oscilloscope-mcp
+Version: 0.1.0
+Path: D:/Dev/repos/oscilloscope-mcp
+Author: Sandra Schipal
+License: MIT
+FastMCP: 3.2+
+Python: 3.12+
+
+## Purpose
+
+Expose USB PC oscilloscopes (no built-in screen) to AI agents via MCP. The computer is the display; the USB dongle is analog frontend + ADC. Supports waveform capture, export, and measurements for electronics bring-up, MCU debug, and fleet integration with kicad-mcp and chip-design-mcp.
+
+## Entry point
+
+uv run python -m oscilloscope_mcp --stdio
+Console script: oscilloscope-mcp
+
+## Environment
+
+OSCILLOSCOPE_MCP_BACKEND=auto|simulator|picoscope|hantek
+OSCILLOSCOPE_MCP_CAPTURE_DIR=./captures
+OSCILLOSCOPE_MCP_PORT=10936
+
+## Tools
+
+### scope_device
+Operations: list, connect, disconnect, status, capabilities, backends
+Read list/status with prefab-ui Grid+Metric cards.
+
+### scope_configure
+Operations: channel, channels, get, simulator_profile
+Configure voltage range, coupling, simulator waveform (sine/square/ramp/noise).
+
+### scope_trigger
+Operations: set, get, arm, force
+Trigger source channel, threshold_v, mode (auto/normal/single/off), edge (rising/falling).
+
+### scope_capture
+Operations: single, preview, export_csv, export_summary, last
+Default: 100 kHz, 2000 samples. Exports to capture_dir as CSV or JSON.
+
+### scope_measure
+Operations: all, vpp, frequency, duty, rise_time, fresh
+Computes metrics from last capture using numpy edge detection.
+
+### scope_help
+Operations: discover, tool_help, status, quickstart, faq, hardware_guide
+Includes hardware buying guide (PicoScope 2204A recommended).
+
+## Resources
+
+resource://scope/capabilities
+resource://scope/quickstart
+resource://scope/last_capture
+
+## Backends
+
+1. SimulatorBackend - always on, synthetic waveforms, device_id sim-001
+2. PicoScopeBackend - pyPicoSDK + PicoSDK, optional extra
+3. HantekBackend - PyHT6022 + libusb, optional extra
+
+Auto resolution order: picoscope -> hantek -> simulator
+
+## Hardware recommendations
+
+Best value: PicoScope 2204A (~$150), 10 MHz, pyPicoSDK
+Swiss army: Analog Discovery 3 (~$300), WaveForms SDK planned
+Budget: Hantek 6022BE (~$50), open-source PyHT6022
+
+Safety: 35-50 V max on budget scopes. Never probe mains.
+
+## Fleet
+
+Port 10936 HTTP
+Pairs with kicad-mcp, chip-design-mcp, devices-mcp
+Cursor mcp.json entry in docs/FLEET_INTEGRATION.md
+
+## Testing
+
+uv run pytest tests/ -v -m "not integration"
+Simulator tests require no hardware.
+
+## File map
+
+src/oscilloscope_mcp/app.py - FastMCP instance
+src/oscilloscope_mcp/server.py - entry
+src/oscilloscope_mcp/tools/portmanteau/ - MCP tools
+src/oscilloscope_mcp/services/backends/ - drivers
+docs/ - full documentation

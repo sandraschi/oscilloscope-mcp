@@ -1,0 +1,18 @@
+{
+  "name": "oscilloscope-mcp",
+  "description": "FastMCP 3.2+ server for USB PC oscilloscopes with PicoScope, Hantek, and simulator backends.",
+  "version": "0.1.0",
+  "author": "Sandra Schipal",
+  "license": "MIT",
+  "tags": ["mcp", "oscilloscope", "test-equipment", "picoscope", "usb-scope", "fastmcp"],
+  "fleet_tier": 2,
+  "health": {
+    "docs_complete": true,
+    "tests_present": true,
+    "ci_present": true,
+    "stdio_safe": true
+  },
+  "ports": {
+    "backend_http": 10936
+  }
+}

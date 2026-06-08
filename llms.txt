@@ -1,0 +1,46 @@
+# oscilloscope-mcp
+
+> FastMCP 3.2+ MCP server for USB PC oscilloscopes (screenless frontends).
+
+## Summary
+
+Control PicoScope, Hantek, or built-in simulator from AI agents. Capture waveforms, export CSV, measure Vpp/frequency/duty/rise time.
+
+## Tools (portmanteau)
+
+- scope_device: list, connect, disconnect, status, capabilities, backends
+- scope_configure: channel, get, simulator_profile
+- scope_trigger: set, get, arm, force
+- scope_capture: single, preview, export_csv, export_summary, last
+- scope_measure: all, vpp, frequency, duty, rise_time, fresh
+- scope_help: discover, tool_help, status, quickstart, faq, hardware_guide
+
+## Quickstart
+
+scope_device(operation="connect", device_id="sim-001")
+scope_capture(operation="single", sample_rate_hz=100000, sample_count=2000)
+scope_measure(operation="all", channel_id="A")
+
+## Backends
+
+- simulator: always available
+- picoscope: uv sync --extra picoscope + PicoSDK
+- hantek: uv sync --extra hantek + libusb
+
+## Docs
+
+- README.md
+- INSTALL.md
+- docs/TOOLS.md
+- docs/HARDWARE.md
+- docs/BACKENDS.md
+- docs/ARCHITECTURE.md
+
+## Install
+
+uv sync --extra dev
+uv run python -m oscilloscope_mcp --stdio
+
+## Ports
+
+HTTP: 10936

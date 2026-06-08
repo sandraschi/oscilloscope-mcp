@@ -1,0 +1,108 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning>=0.7.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "oscilloscope-mcp"
+version = "0.1.0"
+description = "FastMCP 3.2+ server for USB PC oscilloscopes - PicoScope, Hantek, and simulator backends with waveform capture, measurements, and fleet integration."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Sandra Schipal", email = "sandra@schipal.at" }
+]
+keywords = ["mcp", "oscilloscope", "picoscope", "hantek", "usb-scope", "fastmcp", "test-equipment"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed"
+]
+
+dependencies = [
+    "fastmcp>=3.2.0",
+    "prefab-ui>=0.18.0",
+    "pydantic>=2.0.0,<3.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "numpy>=1.26.0,<3.0.0",
+    "rich>=13.0.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "httpx>=0.25.0",
+]
+
+[project.optional-dependencies]
+picoscope = [
+    "pypicosdk>=1.0.0",
+]
+hantek = [
+    "libusb1>=3.0.0",
+]
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+    "pytest-asyncio>=0.23.0,<1.0.0",
+    "pytest-cov>=4.0.0,<5.0.0",
+    "ruff>=0.14.0",
+    "mypy>=1.8.0,<2.0.0",
+    "pre-commit>=3.6.0",
+]
+all = [
+    "oscilloscope-mcp[picoscope,hantek,dev]",
+]
+
+[project.scripts]
+oscilloscope-mcp = "oscilloscope_mcp.server:main"
+
+[project.urls]
+Homepage = "https://github.com/sandraschi/oscilloscope-mcp"
+Repository = "https://github.com/sandraschi/oscilloscope-mcp.git"
+Documentation = "https://github.com/sandraschi/oscilloscope-mcp#readme"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oscilloscope_mcp"]
+
+[tool.uv-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "S", "A", "C4", "T20", "RET", "SIM", "ARG", "TRY"]
+ignore = ["E501", "E402", "B008", "TRY003", "TRY300", "TRY301", "TRY400", "TRY401", "ARG001", "ARG002", "A002", "A001", "N802", "N816", "S110", "B904", "SIM105", "UP041", "S101", "S112"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "integration: tests requiring a connected oscilloscope",
+    "hardware: tests that touch real USB hardware",
+    "slow: tests that take more than 5 seconds",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+addopts = "-ra --strict-markers"
