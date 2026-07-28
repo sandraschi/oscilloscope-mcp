@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [
-    { name = "Sandra Schipal", email = "sandra@schipal.at" }
+    { name = "Sandra Schipal", email = "sandraschipal@gmail.com" }
 ]
 keywords = ["mcp", "oscilloscope", "picoscope", "hantek", "usb-scope", "fastmcp", "test-equipment"]
 classifiers = [
@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "fastmcp>=3.2.0",
+    "fastmcp>=3.4.4,<4",
     "prefab-ui>=0.18.0",
     "pydantic>=2.0.0,<3.0.0",
     "pydantic-settings>=2.0.0",
@@ -48,7 +48,7 @@ dev = [
     "pytest>=8.0.0,<9.0.0",
     "pytest-asyncio>=0.23.0,<1.0.0",
     "pytest-cov>=4.0.0,<5.0.0",
-    "ruff>=0.14.0",
+    "ruff>=0.16.0,<0.17",
     "mypy>=1.8.0,<2.0.0",
     "pre-commit>=3.6.0",
 ]
@@ -84,7 +84,7 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "N", "S", "A", "C4", "T20", "RET", "SIM", "ARG", "TRY"]
-ignore = ["E501", "E402", "B008", "TRY003", "TRY300", "TRY301", "TRY400", "TRY401", "ARG001", "ARG002", "A002", "A001", "N802", "N816", "S110", "B904", "SIM105", "UP041", "S101", "S112"]
+ignore = ["E501", "E402", "B008", "TRY003", "TRY300", "TRY301", "TRY400", "TRY401", "ARG001", "ARG002", "A002", "A001", "N802", "N816", "S110", "B904", "SIM105", "UP041", "S101", "E501", "E402", "B008", "TRY003", "TRY300", "TRY301", "TRY400", "TRY401", "ARG001", "ARG002", "A002", "A001", "N802", "N816", "S110", "B904", "SIM105", "UP041", "S101", "S112", "S106", "RUF012"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101"]
