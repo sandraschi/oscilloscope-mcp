@@ -1,4 +1,5 @@
-set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
+import 'scripts/just/fleet.just'
 
 # oscilloscope-mcp project management
 
@@ -10,7 +11,7 @@ version:
 
 install:
     uv sync --extra dev
-    pre-commit install
+    uv run pre-commit install
 
 serve:
     uv run python -m oscilloscope_mcp --stdio
@@ -22,12 +23,12 @@ webapp:
     @powershell -ExecutionPolicy Bypass -File webapp/start.ps1
 
 lint:
-    ruff check .
-    ruff format --check .
+    uv run ruff check .
+    uv run ruff format --check .
 
 fix:
-    ruff check . --fix
-    ruff format .
+    uv run ruff check . --fix
+    uv run ruff format .
 
 test:
     uv run pytest tests/ -v -m "not integration"
@@ -38,11 +39,10 @@ test-all:
 test-integration:
     uv run pytest tests/integration -v -m integration
 
-mcpb-pack:
-    $ver = (Get-Content pyproject.toml | Select-String '^version = "(.*)"' | ForEach-Object { $_.Matches.Groups[1].Value })
-    $null = New-Item -ItemType Directory -Path dist -Force
-    npx --yes @anthropic-ai/mcpb@latest validate .
-    npx --yes @anthropic-ai/mcpb@latest pack . "dist/oscilloscope-mcp-v$ver.mcpb"
-    Write-Host "Created dist/oscilloscope-mcp-v$ver.mcpb" -ForegroundColor Green
-
 ci: lint test
+
+# Bootstrap: install dev deps + pre-commit hook
+bootstrap:
+    uv sync --group dev
+    uv run pre-commit install
+    Write-Host "Pre-commit hooks installed." -ForegroundColor Green
