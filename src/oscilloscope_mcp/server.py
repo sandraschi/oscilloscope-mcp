@@ -1,4 +1,4 @@
-"""oscilloscope-mcp FastMCP 3.2+ server entry point."""
+"""oscilloscope-mcp FastMCP 3.4+ server entry point."""
 
 from __future__ import annotations
 

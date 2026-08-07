@@ -113,22 +113,12 @@ async def run_server_async(
             endpoint = f"http://{host}:{port}{path}"
             logger.info("Running HTTP: %s", endpoint)
 
-            app = mcp_app.http_app()
-            from fastapi.middleware.cors import CORSMiddleware
+            import uvicorn
 
-            app.add_middleware(
-                CORSMiddleware,
-                allow_origins=["*"],
-                allow_credentials=True,
-                allow_methods=["*"],
-                allow_headers=["*"],
-            )
+            from oscilloscope_mcp.server import app as fastapi_app
 
-            @app.get("/health")
-            async def health():
-                return {"status": "ok", "server": server_name}
-
-            await mcp_app.run_http_async(host=host, port=port, path=path)
+            server = uvicorn.Server(uvicorn.Config(fastapi_app, host=host, port=port, log_level="info"))
+            await server.serve()
 
         elif transport == "sse":
             host = str(config["host"])

@@ -42,6 +42,13 @@ class HantekBackend(OscilloscopeBackend):
             max_input_voltage_v=35.0,
             notes="Hantek 6022BE/BL family. Requires libusb and custom firmware.",
         )
+        installed = True
+        hint = "Use Zadig WinUSB on Windows or udev rules on Linux."
+        try:
+            self._import_scope()
+        except RuntimeError as exc:
+            installed = False
+            hint = str(exc)
         return [
             DeviceInfo(
                 device_id="hantek:6022",
@@ -49,8 +56,8 @@ class HantekBackend(OscilloscopeBackend):
                 model="Hantek 6022BE/BL",
                 connected=self._scope is not None,
                 capabilities=caps,
-                driver_status="available",
-                driver_hint="Use Zadig WinUSB on Windows or udev rules on Linux.",
+                driver_status="available" if installed else "unavailable",
+                driver_hint=hint,
             )
         ]
 
@@ -101,11 +108,7 @@ class HantekBackend(OscilloscopeBackend):
 
         raw = self._scope.read_samples(sample_count)
         arr = np.asarray(raw, dtype=np.float64)
-        arrays = (
-            [arr]
-            if arr.ndim == 1
-            else [arr[:, idx] for idx in range(min(arr.shape[1], len(active)))]
-        )
+        arrays = [arr] if arr.ndim == 1 else [arr[:, idx] for idx in range(min(arr.shape[1], len(active)))]
 
         dt = 1.0 / sample_rate_hz
         time_s = (np.arange(sample_count, dtype=np.float64) * dt).tolist()

@@ -1,10 +1,25 @@
 import { NavLink } from "react-router-dom";
-import { Activity, HelpCircle, LayoutDashboard, Settings, Wrench, Waves } from "lucide-react";
+import {
+  Activity,
+  Cable,
+  HelpCircle,
+  LayoutDashboard,
+  List,
+  Settings,
+  SlidersHorizontal,
+  Waves,
+  Wrench,
+  Zap,
+} from "lucide-react";
 
 const links = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/device", label: "Device", icon: Cable },
   { to: "/waveform", label: "Waveform", icon: Waves },
+  { to: "/configure", label: "Configure", icon: SlidersHorizontal },
+  { to: "/trigger", label: "Trigger", icon: Zap },
   { to: "/tools", label: "Tools", icon: Wrench },
+  { to: "/logs", label: "Logs", icon: List },
   { to: "/settings", label: "Settings", icon: Settings },
   { to: "/help", label: "Help", icon: HelpCircle },
 ];
