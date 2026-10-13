@@ -1,0 +1,22 @@
+# Per-repo fleet start config for oscilloscope-mcp
+# Edit ports/backend target here - start.ps1 is fleet-standard.
+@{
+    Name         = 'oscilloscope-mcp'
+    BackendPort  = 10936
+    FrontendPort = 10937
+    HealthPath   = '/health'
+    WebRoot      = 'webapp'
+    Backend = @{
+        Kind          = 'uvicorn'
+        UvicornTarget = 'oscilloscope_mcp.server:app'
+        SyncExtras    = @('dev')
+        SyncOnStart  = $true
+        Env           = @{ WEB_PORT = '10936' }
+    }
+    Frontend = @{
+        Kind           = 'vite-npm'
+        PackageManager = 'npm'
+        PortEnvVar     = 'VITE_PORT'
+        ApiTargetEnv   = 'VITE_API_TARGET'
+    }
+}
