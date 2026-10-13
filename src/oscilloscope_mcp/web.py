@@ -53,7 +53,7 @@ class ActivityLog:
             try:
                 at = float(after_id.split(".")[0])
                 entries = [e for e in entries if float(e["id"].split(".")[0]) > at]
-            except:
+            except Exception:
                 pass
         if level:
             lo = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3}
