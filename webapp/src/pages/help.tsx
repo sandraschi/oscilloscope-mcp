@@ -29,6 +29,16 @@ export default function Help() {
           <h2 className="text-lg font-semibold text-amber-300">Safety</h2>
           <p className="text-zinc-400">Never probe mains. Budget USB scopes are typically 35-50 V max input.</p>
         </section>
+        <section>
+          <h2 className="text-lg font-semibold text-amber-300">Bench family</h2>
+          <p className="text-zinc-400">
+            One bench, nine servers. bench-orchestrator-mcp conducts (mcu_bringup drives its six wired peers,
+            this scope is its <span className="font-mono text-xs">scope</span> peer); the rest are instruments:
+            jtag-swd-mcp (halt/inspect/flash), logic-analyzer-mcp (decode), multimeter-mcp (rails),
+            power-supply-mcp (target power), function-generator-mcp (stimulus), bench-camera-mcp (vision),
+            spectrum-analyzer-mcp (EMI). All under D:/Dev/repos and sandraschi on GitHub.
+          </p>
+        </section>
       </div>
     </div>
   );

@@ -33,6 +33,23 @@ The MCP server never bundles oscilloscope drivers or PicoSDK. Install vendor sof
 | [chip-design-mcp](https://github.com/sandraschi/chip-design-mcp) | Verify power rails and oscillators |
 | [devices-mcp](https://github.com/sandraschi/devices-mcp) | Discover USB devices before connect |
 
+### Bench family
+
+One bench, nine servers. `bench-orchestrator-mcp` conducts (`mcu_bringup` drives
+its six wired peers); the rest are instruments:
+
+| Server | Role | Wired peer? |
+|--------|------|-------------|
+| [bench-orchestrator-mcp](https://github.com/sandraschi/bench-orchestrator-mcp) | Conductor — `bench_workflow` (`power_check`, `bus_check`, `debug_check`, `mcu_bringup`) | — (it conducts) |
+| [jtag-swd-mcp](https://github.com/sandraschi/jtag-swd-mcp) | Halt / inspect / flash the CPU | yes (`dbg`) |
+| `oscilloscope-mcp` (here) | Scope traces — signal integrity, rails, oscillators | yes (`scope`) |
+| [logic-analyzer-mcp](https://github.com/sandraschi/logic-analyzer-mcp) | Digital capture + UART/I2C/SPI decode | yes (`la`) |
+| [multimeter-mcp](https://github.com/sandraschi/multimeter-mcp) | DMM — rails, continuity | yes (`dmm`) |
+| [power-supply-mcp](https://github.com/sandraschi/power-supply-mcp) | Bench PSU — target power | yes (`psu`) |
+| [function-generator-mcp](https://github.com/sandraschi/function-generator-mcp) | AWG stimulus — clocks, reset, fault injection | yes (`fgen`) |
+| [bench-camera-mcp](https://github.com/sandraschi/bench-camera-mcp) | Bench vision — LEDs, 7-segment | family (not wired) |
+| [spectrum-analyzer-mcp](https://github.com/sandraschi/spectrum-analyzer-mcp) | Spectrum — EMI around the target | family (not wired) |
+
 ## Quick Start
 
 ```powershell
